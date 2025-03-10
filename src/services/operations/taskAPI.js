@@ -9,6 +9,7 @@ const {
     FETCH_TASKS_API,
     FETCH_COMPLETE_TASK_DETAILS_API,
     CREATE_STEP_API,
+    EDIT_STEP_API
 } = taskEndpoints;
 
 export const createTask = async(formData,token)=>{
@@ -42,7 +43,7 @@ export const createTask = async(formData,token)=>{
 }
 
 export const editTaskDetails = async(formData,token)=>{
-    let toastId = toast.loading("Editing Task")
+    let toastId = toast.loading("Saving Changes");
     try {
         
         const response = await apiConnector(
@@ -88,7 +89,7 @@ export const fetchTeamTasks = async(token)=>{
         }
 
         // console.log("FETCH_TEAM_TASKS_API_RESPONSE:",response);
-        toast.success(response?.data?.message);
+        // toast.success(response?.data?.message);
         return response?.data?.data;
         
     } catch (err) {
@@ -147,6 +148,36 @@ export const createStep = async(formData,token)=>{
         
     } catch (err) {
         console.log("CREATE_STEP_API_ERROR:",err);
+        toast.dismiss(toastId);
+        toast.error(err?.response?.data?.message || err?.message);
+        return null;
+    }
+}
+
+export const editStepDetails = async(formData,token)=>{
+    let toastId = toast.loading("Saving Changes");
+    try {
+        
+        const response = await apiConnector(
+            "PUT",
+            EDIT_STEP_API,
+            formData,
+            // {
+            //     "Authorization":`Bearer ${token}`
+            // }
+        );
+
+        if(!response?.data?.success){
+            throw new Error(response?.data?.message);
+        }
+
+        // console.log("EDIT_STEP_API_RESPONSE:",response);
+        toast.dismiss(toastId);
+        toast.success(response?.data?.message);       
+        return response?.data?.data;
+        
+    } catch (err) {
+        console.log("EDIT_STEP_API_ERROR:",err);
         toast.dismiss(toastId);
         toast.error(err?.response?.data?.message || err?.message);
         return null;

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../../Context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import { ROLE, STATUS } from "../../../../utils/constants";
 import { motion } from "framer-motion";
 import { toast } from 'react-hot-toast';
-import { createStep, createTask, editTaskDetails } from "../../../../services/operations/taskAPI";
+import { createStep, createTask, editStepDetails, editTaskDetails } from "../../../../services/operations/taskAPI";
 import { formattedFullDate } from "../../../../utils/dateFormatter";
 import { fetchTeamMembers } from "../../../../services/operations/teamAPI";
 
@@ -92,17 +92,33 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
         step?.description === editStep?.description &&
         step?.assignedTo === editStep?.assignedTo &&
         step?.status === editStep?.status
-      )
+      ){
+        setEditStep(null);
+        setStep({
+          taskId: task?._id,
+          name: "",
+          description: "",
+          assignedTo:members && members[0]?._id,
+          // deadline: "",
+          status: STATUS.PENDING,
+        });
         return;
+      }
 
-      const stepIndex = steps?.findIndex((st) => st?._id === editStep?._id);
-      let stepsData = steps;
-      stepsData[stepIndex] = { ...step, editStep: true };
-      setSteps(stepsData);
-      setTask({
-        ...task,
-        steps: steps,
-      });
+      // console.log("Edit Step: ",step);
+
+      const updatedStep = await editStepDetails({...step,stepId:editStep?._id},token);
+      if(updatedStep){
+        const stepIndex = steps?.findIndex((st) => st?._id === editStep?._id);
+        let stepsData = steps;
+        stepsData[stepIndex] = { ...updatedStep};
+        setSteps(stepsData);
+        setTask({
+          ...task,
+          steps: stepsData,
+        });
+      }
+      
       setEditStep(null);
       setStep({
         taskId: task?._id,
@@ -267,7 +283,7 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
           <div>
             
               {steps && steps?.length > 0 && (
-                <div className="w-full py-4">
+                <div className="w-full py-4 overflow-x-auto">
                   <p className="font-semibold text-gray-700">Steps:</p>
                   <table className="w-full border border-gray-200 mt-2">
                     <thead className="bg-gray-100">
@@ -298,13 +314,13 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                               Edit
                             </button>
                             {
-                              st?.status === STATUS.PENDING &&
-                              <button
-                                type="button"
-                                className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-                              >
-                                Delete
-                              </button>
+                              // st?.status === STATUS.PENDING &&
+                              // <button
+                              //   type="button"
+                              //   className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                              // >
+                              //   Delete
+                              // </button>
                             }
                           </td>
                         </tr>
@@ -355,7 +371,7 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                 <label className="text-sm font-medium text-gray-700">Assign To</label>
                 <select
                   onChange={stepInputChangeHandler}
-                  defaultValue={members && members[0]?._id}
+                  value={step ? step?.assignedTo : members && members[0]?._id}
                   name="assignedTo"
                   id="assignedTo"
                   className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#1C398E]"
@@ -371,7 +387,7 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                 </select>
               </div>
               
-              {/* Task Status */}
+              {/* Step Status */}
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-700">Status</label>
                 <select
@@ -395,7 +411,9 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                 onClick={addStepInTask}
                 className="px-4 py-2 self-cente bg-green-500 text-white rounded-md hover:bg-green-600 transition"
               >
-                Add Step
+                {
+                  editStep ? "Save Changes" : "Add Step"
+                }
               </button>
             </div>
           </div>

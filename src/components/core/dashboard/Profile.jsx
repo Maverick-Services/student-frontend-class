@@ -38,8 +38,8 @@ export const Profile = () => {
           <ProfileItem label="Team Leader" value={team?.teamLeader?.name} />
           <ProfileItem label="Members" value={team?.members?.length} />
           <ProfileItem label="Tasks" value={team?.tasks?.length} />
-          <ProfileItem label="Assigned Tasks" value={team?.tasks?.length} />
-          <ProfileItem label="Unassigned Tasks" value={team?.tasks?.length} />
+          {/* <ProfileItem label="Assigned Tasks" value={team?.tasks?.length} />
+          <ProfileItem label="Unassigned Tasks" value={team?.tasks?.length} /> */}
         </div>
 
         {/* Action Buttons */}

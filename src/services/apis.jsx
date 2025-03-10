@@ -16,4 +16,5 @@ export const taskEndpoints = {
     FETCH_COMPLETE_TASK_DETAILS_API: BASE_URL + "/tasks/getTaskById",
     FETCH_TASKS_API: BASE_URL + "/tasks/",
     CREATE_STEP_API: BASE_URL + "/steps/createStep",
+    EDIT_STEP_API: BASE_URL + "/steps/updateStep",
 }
