@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { formattedFullDate } from "../../../utils/dateFormatter";
+import { STATUS } from "../../../utils/constants";
 
 export const ShowTaskDetails = ({ task, members, setShowDetails, showDetails }) => {
   // Keep the existing logic
@@ -19,7 +20,12 @@ export const ShowTaskDetails = ({ task, members, setShowDetails, showDetails }) 
       >
         {/* Header Row */}
         <div className="w-full flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-[#1C398E]">Task Details</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-[#1C398E]">Task Details</h1>
+            <p className={`p-1 px-3 rounded-full text-sm font-bold text-white ${
+                task?.status === STATUS.COMPLETED ? "bg-green-500" : "bg-red-500"
+              }`}>{task?.status}</p>
+          </div>
           <button
             onClick={() => setShowDetails(!showDetails)}
             className="bg-[#1C398E] text-white px-4 py-2 rounded-md hover:bg-[#142A6E] transition"
@@ -62,7 +68,7 @@ export const ShowTaskDetails = ({ task, members, setShowDetails, showDetails }) 
             <p className="text-lg font-bold text-[#1C398E]">Steps:</p>
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-200">
-                <thead className="bg-gray-100">
+                <thead className="bg-[#1C398E] text-white">
                   <tr>
                     <th className="p-2 border">Sno</th>
                     <th className="p-2 border">Name</th>
@@ -84,7 +90,11 @@ export const ShowTaskDetails = ({ task, members, setShowDetails, showDetails }) 
                       <td className="p-2 border">{st?.name}</td>
                       <td className="p-2 border">{st?.description}</td>
                       <td className="p-2 border">{getAssignedName(st?.assignedTo)}</td>
-                      <td className="p-2 border">{st?.status}</td>
+                      <td className="p-2 border">
+                        <p className={`p-1 rounded-full text-sm font-bold text-white ${
+                            st?.status === STATUS.COMPLETED ? "bg-green-500" : "bg-red-500"
+                          }`}>{st?.status}</p>
+                      </td>
                     </motion.tr>
                   ))}
                 </tbody>

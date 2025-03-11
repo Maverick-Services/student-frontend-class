@@ -286,7 +286,7 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                 <div className="w-full py-4 overflow-x-auto">
                   <p className="font-semibold text-gray-700">Steps:</p>
                   <table className="w-full border border-gray-200 mt-2">
-                    <thead className="bg-gray-100">
+                    <thead className="bg-[#1C398E] text-white">
                       <tr>
                         <th className="p-2 border">Sno</th>
                         <th className="p-2 border">Name</th>
@@ -392,7 +392,8 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
                 <label className="text-sm font-medium text-gray-700">Status</label>
                 <select
                   onChange={stepInputChangeHandler}
-                  defaultValue={getStatus(step) ? getStatus(step) : STATUS.PENDING}
+                  // defaultValue={getStatus(step) ? getStatus(step) : STATUS.PENDING}
+                  value={step ? step?.status : STATUS.PENDING}
                   name="status"
                   id="status"
                   className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#1C398E]"
