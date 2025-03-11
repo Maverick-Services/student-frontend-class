@@ -55,7 +55,11 @@ const Members = () => {
               whileTap={{ scale: 0.95 }}
               className="w-fit p-4 flex flex-col gap-3"
             >
-              <Link to={`/dashboard/members/${ms?._id}`} className="w-full">
+              <Link 
+                // to={`/dashboard/members/${ms?._id}`} 
+                to={"#"}
+                className="w-full"
+              >
                 <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col gap-2 transition-all hover:shadow-xl">
                   <h3 className="text-lg font-semibold text-gray-800">Name: {ms?.name}</h3>
                   <p className="text-gray-600">Email: {ms?.email}</p>
