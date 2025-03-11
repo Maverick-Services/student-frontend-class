@@ -43,7 +43,7 @@ export const Profile = () => {
         </div>
 
         {/* Action Buttons */}
-        <motion.div
+        {/* <motion.div
           className="flex justify-center gap-4"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -56,7 +56,7 @@ export const Profile = () => {
           >
             Logout
           </motion.button>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </div>
   );
