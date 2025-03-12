@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { users } from "../../../data/dummy";
 import { fetchTeamMembers } from "../../../services/operations/teamAPI";
 import { AuthContext } from "../../../Context/AuthContext";
 import { Spinner } from "../../common/Spinner";
@@ -12,26 +11,23 @@ const cardVariants = {
 };
 
 const Members = () => {
-  
-  const {token,loading,setLoading,team} = useContext(AuthContext);
+  const { token, loading, setLoading, team } = useContext(AuthContext);
   const [members, setMembers] = useState([]);
 
-  const fetchMemebrs = async()=>{
+  const fetchMemebrs = async () => {
     setLoading(true);
-    const result = await fetchTeamMembers(token,{teamId:team?._id});
-    if(result){
+    const result = await fetchTeamMembers(token, { teamId: team?._id });
+    if (result) {
       setMembers(result);
     }
-   
     setLoading(false);
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchMemebrs();
-  },[]);
+  }, []);
 
-  if(loading)
-    return <Spinner/>
+  if (loading) return <Spinner />;
 
   return (
     <div className="w-full min-h-screen p-6 bg-gray-100 flex flex-col gap-6">
@@ -40,10 +36,13 @@ const Members = () => {
       <motion.div
         initial="hidden"
         animate="visible"
-        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-full"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-full"
       >
         {members && !members.length ? (
-          <motion.p variants={cardVariants} className="text-gray-600 text-lg text-center col-span-full">
+          <motion.p
+            variants={cardVariants}
+            className="text-gray-600 text-lg text-center col-span-full"
+          >
             No Members added yet
           </motion.p>
         ) : (
@@ -53,20 +52,25 @@ const Members = () => {
               variants={cardVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-fit p-4 flex flex-col gap-3"
+              className="w-full flex justify-center"
             >
-              <Link 
-                // to={`/dashboard/members/${ms?._id}`} 
-                to={"#"}
-                className="w-full"
-              >
-                <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col gap-2 transition-all hover:shadow-xl">
-                  <h3 className="text-lg font-semibold text-gray-800">Name: {ms?.name}</h3>
-                  <p className="text-gray-600">Email: {ms?.email}</p>
+              <Link to={"#"} className="w-full max-w-[350px] flex-1">
+                <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col gap-2 transition-all hover:shadow-xl min-h-[220px] h-auto">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Name: {ms?.name}
+                  </h3>
+
+                  {/* FIX: Ensure Email Wraps Properly */}
+                  <p className="text-gray-600 break-words whitespace-normal">
+                    Email: {ms?.email}
+                  </p>
+
                   <p className="text-gray-600">Mobile No: {ms?.phoneNo}</p>
                   <p className="text-gray-600">
                     Tasks Assigned:{" "}
-                    <span className="font-semibold text-[#1C398E]">{ms?.tasks?.length}</span>
+                    <span className="font-semibold text-[#1C398E]">
+                      {ms?.tasks?.length}
+                    </span>
                   </p>
                 </div>
               </Link>

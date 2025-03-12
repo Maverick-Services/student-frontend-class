@@ -14,7 +14,6 @@ import PrivateRoute from './components/core/auth/PrivateRoute'
 function App() {
   return (
     <div id='wrapper' className='bg-gray-200'>
-      <Navbar/>
       <Routes>
         <Route path='/' element={
           <OpenRoute>

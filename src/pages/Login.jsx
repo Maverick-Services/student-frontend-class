@@ -23,7 +23,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-100 p-6">
+    <div className="w-full h-full flex justify-center items-center bg-gray-100 p-6">
       {/* Left Section - Team & Department Info */}
       <motion.div
         initial={{ opacity: 0, x: -50 }}
