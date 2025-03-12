@@ -65,7 +65,7 @@ export const EditTaskDetails = () => {
       {
         !showDetails &&
         editTask && task && members &&
-        <AddTaskDetails members={members} task={task} editTask={editTask}/>
+        <AddTaskDetails members={members} task={task} editTask={editTask} setShowDetails={setShowDetails} showDetails={showDetails} />
       }
     </div>
   )
