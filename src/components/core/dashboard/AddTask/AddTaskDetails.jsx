@@ -148,6 +148,16 @@ export const AddTaskDetails = ({ members,task, editTask }) => {
   };
 
   const userFormSubmitHandler = async(data) => {
+
+    if(
+      data?.status && data?.status === STATUS.COMPLETED &&
+      task?.steps && task?.steps?.length && 
+      task?.steps?.filter(st => st?.status === STATUS.PENDING).length > 0
+    ){
+      toast.error("Please Complete All Steps before marking task complete");
+      return;
+    }
+
     if (editTask) {
       if(isFormUpdated(data)){
         const currentValues = getValues();

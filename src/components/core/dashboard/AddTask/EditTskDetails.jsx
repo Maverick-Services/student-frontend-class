@@ -5,6 +5,7 @@ import { AddTaskDetails } from './AddTaskDetails';
 import { fetchCompleteTaskDetails } from '../../../../services/operations/taskAPI';
 import { fetchTeamMembers } from '../../../../services/operations/teamAPI';
 import { ShowTaskDetails } from '../ShowTaskDetails';
+import { Spinner } from '../../../common/Spinner';
 
 export const EditTaskDetails = () => {
 
@@ -51,7 +52,7 @@ export const EditTaskDetails = () => {
   },[task])
 
   if(loading){
-    return <p>Loading ......</p>
+    return <Spinner/>
   }
 
   return (
